@@ -36,6 +36,21 @@ firewall {
             }
         }
         rule 20 {
+            action accept
+            description "Allow L2TP"
+            destination {
+                port 500,1701,4500
+            }
+            log disable
+            protocol udp
+        }
+        rule 40 {
+            action accept
+            description "Allow ESP"
+            log disable
+            protocol esp
+        }
+        rule 50 {
             action drop
             description "Drop invalid state"
             state {
@@ -134,6 +149,7 @@ service {
         forwarding {
             cache-size 150
             listen-on switch0
+            listen-on lo
         }
     }
     gui {
@@ -185,6 +201,51 @@ system {
         }
     }
     time-zone UTC
+}
+vpn {
+    ipsec {
+        auto-firewall-nat-exclude disable
+        ipsec-interfaces {
+            interface pppoe0
+        }
+        nat-networks {
+            allowed-network 0.0.0.0/0 {
+            }
+        }
+        nat-traversal enable
+    }
+    l2tp {
+        remote-access {
+            authentication {
+                local-users {
+                    username goma {
+                        password XXXXXXXXXXXXXXXX
+                    }
+                    username hoto {
+                        password XXXXXXXXXXXXXXXX
+                    }
+                }
+                mode local
+            }
+            client-ip-pool {
+                start 192.168.1.100
+                stop 192.168.1.120
+            }
+            dns-servers {
+                server-1 192.168.1.1
+                server-2 8.8.8.8
+            }
+            ipsec-settings {
+                authentication {
+                    mode pre-shared-secret
+                    pre-shared-secret XXXXXXXXXXXXXXXX
+                }
+                ike-lifetime 3600
+            }
+            mtu 1280
+            outside-address 0.0.0.0
+        }
+    }
 }
 
 
