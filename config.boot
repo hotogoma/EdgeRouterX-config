@@ -128,6 +128,21 @@ interfaces {
         }
     }
 }
+port-forward {
+    auto-firewall enable
+    hairpin-nat enable
+    lan-interface switch0
+    rule 1 {
+        description HTTP
+        forward-to {
+            address 192.168.1.10
+            port 80
+        }
+        original-port 80
+        protocol tcp
+    }
+    wan-interface pppoe0
+}
 service {
     dhcp-server {
         disabled false
@@ -138,8 +153,12 @@ service {
                 default-router 192.168.1.1
                 dns-server 192.168.1.1
                 lease 86400
-                start 192.168.1.38 {
+                start 192.168.1.10 {
                     stop 192.168.1.243
+                }
+                static-mapping raspberrypi {
+                    ip-address 192.168.1.10
+                    mac-address b8:27:eb:87:3d:ad
                 }
             }
         }
