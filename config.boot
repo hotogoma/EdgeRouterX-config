@@ -74,14 +74,6 @@ interfaces {
         duplex auto
         pppoe 0 {
             default-route auto
-            firewall {
-                in {
-                    name WAN_IN
-                }
-                local {
-                    name WAN_LOCAL
-                }
-            }
             mtu 1492
             name-server auto
             password XXXXXX
@@ -105,8 +97,11 @@ interfaces {
         speed auto
     }
     ethernet eth4 {
-        description Local
+        description "Local (AP)"
         duplex auto
+        poe {
+            output pthru
+        }
         speed auto
     }
     loopback lo {
@@ -141,6 +136,24 @@ port-forward {
         original-port 80
         protocol tcp
     }
+    rule 2 {
+        description SSH
+        forward-to {
+            address 192.168.1.10
+            port 22
+        }
+        original-port 22222
+        protocol tcp
+    }
+    rule 3 {
+        description HTTPS
+        forward-to {
+            address 192.168.1.10
+            port 443
+        }
+        original-port 443
+        protocol tcp
+    }
     wan-interface pppoe0
 }
 service {
@@ -155,6 +168,14 @@ service {
                 lease 86400
                 start 192.168.1.10 {
                     stop 192.168.1.243
+                }
+                static-mapping GPU {
+                    ip-address 192.168.1.12
+                    mac-address 00:01:2e:71:c4:cf
+                }
+                static-mapping HOTOGOMA-NAS {
+                    ip-address 192.168.1.11
+                    mac-address 00:11:32:71:e5:07
                 }
                 static-mapping raspberrypi {
                     ip-address 192.168.1.10
@@ -195,6 +216,14 @@ system {
             authentication {
                 encrypted-password $6$YZIKJ5KEg0rAN$XAzaoR9JH/O1enPUSHG3t6frXHMQctlF3aPGMKTA2AKyrs8dr9uPF9r0nWWAA3NQrPh3PCsZr/OtD.XgixMoY0
                 plaintext-password ""
+                public-keys DM-1702095 {
+                    key AAAAC3NzaC1lZDI1NTE5AAAAINnVuS7SbDnhncvy6W4U06DeRqYyWWuUtOpSNCSyoSl/
+                    type ssh-ed25519
+                }
+                public-keys HotoMac {
+                    key AAAAC3NzaC1lZDI1NTE5AAAAID/cYHQa6M4tOGiMaQ/kQmH0E1vuCnvRg91KjXkYAh2s
+                    type ssh-ed25519
+                }
             }
             level admin
         }
@@ -270,4 +299,4 @@ vpn {
 
 /* Warning: Do not remove the following line. */
 /* === vyatta-config-version: "config-management@1:conntrack@1:cron@1:dhcp-relay@1:dhcp-server@4:firewall@5:ipsec@5:nat@3:qos@1:quagga@2:system@4:ubnt-pptp@1:ubnt-util@1:vrrp@1:webgui@1:webproxy@1:zone-policy@1" === */
-/* Release version: v1.9.0.4901118.160804.1131 */
+/* Release version: v1.9.1.1.4977602.170427.0113 */
