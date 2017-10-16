@@ -210,7 +210,7 @@ service {
     }
 }
 system {
-    host-name ubnt
+    host-name mrkch.jp
     login {
         user hoto {
             authentication {
@@ -236,6 +236,17 @@ system {
         server 2.ubnt.pool.ntp.org {
         }
         server 3.ubnt.pool.ntp.org {
+        }
+    }
+    static-host-mapping {
+        host-name gpu.mrkch.jp {
+            inet 192.168.1.12
+        }
+        host-name mrkch.jp {
+            inet 192.168.1.1
+        }
+        host-name nas.mrkch.jp {
+            inet 192.168.1.11
         }
     }
     syslog {
@@ -298,5 +309,5 @@ vpn {
 
 
 /* Warning: Do not remove the following line. */
-/* === vyatta-config-version: "config-management@1:conntrack@1:cron@1:dhcp-relay@1:dhcp-server@4:firewall@5:ipsec@5:nat@3:qos@1:quagga@2:system@4:ubnt-pptp@1:ubnt-util@1:vrrp@1:webgui@1:webproxy@1:zone-policy@1" === */
-/* Release version: v1.9.1.1.4977602.170427.0113 */
+/* === vyatta-config-version: "config-management@1:conntrack@1:cron@1:dhcp-relay@1:dhcp-server@4:firewall@5:ipsec@5:nat@3:qos@1:quagga@2:system@4:ubnt-pptp@1:ubnt-unms@1:ubnt-util@1:vrrp@1:webgui@1:webproxy@1:zone-policy@1" === */
+/* Release version: v1.9.7+hotfix.4.5024279.171006.0255 */
