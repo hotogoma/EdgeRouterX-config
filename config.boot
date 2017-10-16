@@ -76,8 +76,8 @@ interfaces {
             default-route auto
             mtu 1492
             name-server auto
-            password XXXXXX
-            user-id XXXXXXXX@XXXXXX.net
+            password XXXXXXXX
+            user-id XXXXXXXX
         }
         speed auto
     }
@@ -267,10 +267,10 @@ vpn {
             authentication {
                 local-users {
                     username goma {
-                        password XXXXXXXXXXXXXXXX
+                        password XXXXXXXX
                     }
                     username hoto {
-                        password XXXXXXXXXXXXXXXX
+                        password XXXXXXXX
                     }
                 }
                 mode local
@@ -286,7 +286,7 @@ vpn {
             ipsec-settings {
                 authentication {
                     mode pre-shared-secret
-                    pre-shared-secret XXXXXXXXXXXXXXXX
+                    pre-shared-secret XXXXXXXX
                 }
                 ike-lifetime 3600
             }
