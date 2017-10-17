@@ -127,33 +127,6 @@ port-forward {
     auto-firewall enable
     hairpin-nat enable
     lan-interface switch0
-    rule 1 {
-        description HTTP
-        forward-to {
-            address 192.168.1.10
-            port 80
-        }
-        original-port 80
-        protocol tcp
-    }
-    rule 2 {
-        description SSH
-        forward-to {
-            address 192.168.1.10
-            port 22
-        }
-        original-port 22222
-        protocol tcp
-    }
-    rule 3 {
-        description HTTPS
-        forward-to {
-            address 192.168.1.10
-            port 443
-        }
-        original-port 443
-        protocol tcp
-    }
     wan-interface pppoe0
 }
 service {
