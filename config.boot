@@ -163,6 +163,7 @@ service {
             cache-size 150
             listen-on switch0
             listen-on lo
+            options listen-address=192.168.1.1
         }
     }
     gui {
