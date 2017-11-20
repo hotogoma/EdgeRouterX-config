@@ -143,11 +143,11 @@ service {
                     stop 192.168.1.254
                 }
                 static-mapping GPU {
-                    ip-address 192.168.1.12
+                    ip-address 192.168.1.3
                     mac-address 00:01:2e:71:c4:cf
                 }
                 static-mapping NAS {
-                    ip-address 192.168.1.11
+                    ip-address 192.168.1.2
                     mac-address 00:11:32:71:e5:07
                 }
             }
@@ -213,10 +213,10 @@ system {
     }
     static-host-mapping {
         host-name gpu.mrkch.jp {
-            inet 192.168.1.12
+            inet 192.168.1.3
         }
         host-name nas.mrkch.jp {
-            inet 192.168.1.11
+            inet 192.168.1.2
         }
     }
     syslog {
