@@ -185,6 +185,9 @@ service {
 }
 system {
     host-name mrkch.jp
+    ip {
+        override-hostname-ip 192.168.1.1
+    }
     login {
         user hoto {
             authentication {
@@ -215,9 +218,6 @@ system {
     static-host-mapping {
         host-name gpu.mrkch.jp {
             inet 192.168.1.12
-        }
-        host-name mrkch.jp {
-            inet 192.168.1.1
         }
         host-name nas.mrkch.jp {
             inet 192.168.1.11
