@@ -139,8 +139,8 @@ service {
                 default-router 192.168.1.1
                 dns-server 192.168.1.1
                 lease 86400
-                start 192.168.1.10 {
-                    stop 192.168.1.243
+                start 192.168.1.2 {
+                    stop 192.168.1.254
                 }
                 static-mapping GPU {
                     ip-address 192.168.1.12
