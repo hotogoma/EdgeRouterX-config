@@ -146,13 +146,9 @@ service {
                     ip-address 192.168.1.12
                     mac-address 00:01:2e:71:c4:cf
                 }
-                static-mapping HOTOGOMA-NAS {
+                static-mapping NAS {
                     ip-address 192.168.1.11
                     mac-address 00:11:32:71:e5:07
-                }
-                static-mapping raspberrypi {
-                    ip-address 192.168.1.10
-                    mac-address b8:27:eb:87:3d:ad
                 }
             }
         }
