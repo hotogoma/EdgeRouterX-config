@@ -150,6 +150,10 @@ service {
                     ip-address 192.168.1.2
                     mac-address 00:11:32:71:e5:07
                 }
+                static-mapping PI {
+                    ip-address 192.168.1.4
+                    mac-address b8:27:eb:87:3d:ad
+                }
             }
         }
         use-dnsmasq disable
@@ -217,6 +221,9 @@ system {
         }
         host-name nas.mrkch.jp {
             inet 192.168.1.2
+        }
+        host-name pi.mrkch.jp {
+            inet 192.168.1.4
         }
     }
     syslog {
