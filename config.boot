@@ -237,6 +237,10 @@ system {
         }
     }
     time-zone UTC
+    traffic-analysis {
+        dpi disable
+        export disable
+    }
 }
 vpn {
     ipsec {
@@ -258,6 +262,9 @@ vpn {
                         password XXXXXXXX
                     }
                     username hoto {
+                        password XXXXXXXX
+                    }
+                    username papix {
                         password XXXXXXXX
                     }
                 }
