@@ -140,7 +140,7 @@ service {
                 dns-server 192.168.1.1
                 lease 86400
                 start 192.168.1.2 {
-                    stop 192.168.1.254
+                    stop 192.168.1.199
                 }
                 static-mapping GPU {
                     ip-address 192.168.1.3
@@ -271,8 +271,8 @@ vpn {
                 mode local
             }
             client-ip-pool {
-                start 192.168.1.100
-                stop 192.168.1.120
+                start 192.168.1.200
+                stop 192.168.1.254
             }
             dns-servers {
                 server-1 192.168.1.1
