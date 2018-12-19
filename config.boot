@@ -154,6 +154,10 @@ service {
                     ip-address 192.168.1.4
                     mac-address b8:27:eb:87:3d:ad
                 }
+                static-mapping PRINTER {
+                    ip-address 192.168.1.5
+                    mac-address 38:9d:92:bc:e0:cf
+                }
             }
         }
         use-dnsmasq disable
