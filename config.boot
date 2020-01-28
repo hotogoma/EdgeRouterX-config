@@ -160,6 +160,7 @@ service {
                 }
             }
         }
+        static-arp disable
         use-dnsmasq disable
     }
     dns {
@@ -171,6 +172,7 @@ service {
         }
     }
     gui {
+        cert-file /config/auth/server.pem
         http-port 80
         https-port 443
         older-ciphers enable
@@ -248,6 +250,7 @@ system {
 }
 vpn {
     ipsec {
+        allow-access-to-local-interface disable
         auto-firewall-nat-exclude disable
         ipsec-interfaces {
             interface pppoe0
@@ -282,12 +285,14 @@ vpn {
                 server-1 192.168.1.1
                 server-2 8.8.8.8
             }
+            idle 1800
             ipsec-settings {
                 authentication {
                     mode pre-shared-secret
                     pre-shared-secret XXXXXXXX
                 }
                 ike-lifetime 3600
+                lifetime 3600
             }
             mtu 1280
             outside-address 0.0.0.0
@@ -299,4 +304,3 @@ vpn {
 /* Warning: Do not remove the following line. */
 /* === vyatta-config-version: "config-management@1:conntrack@1:cron@1:dhcp-relay@1:dhcp-server@4:firewall@5:ipsec@5:nat@3:qos@1:quagga@2:suspend@1:system@4:ubnt-pptp@1:ubnt-udapi-server@1:ubnt-unms@1:ubnt-util@1:vrrp@1:vyatta-netflow@1:webgui@1:webproxy@1:zone-policy@1" === */
 /* Release version: v2.0.8.5247496.191120.1124 */
-
