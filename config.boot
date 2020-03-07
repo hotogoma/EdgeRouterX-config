@@ -52,9 +52,6 @@ firewall {
                 port 546
             }
             protocol udp
-            source {
-                port 547
-            }
         }
     }
     ipv6-receive-redirects disable
