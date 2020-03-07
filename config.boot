@@ -148,8 +148,11 @@ interfaces {
         speed auto
     }
     ethernet eth4 {
-        description Local
+        description "Local (AP)"
         duplex auto
+        poe {
+            output pthru
+        }
         speed auto
     }
     loopback lo {
