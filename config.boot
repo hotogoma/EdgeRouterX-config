@@ -109,6 +109,18 @@ firewall {
 interfaces {
     ethernet eth0 {
         description "Internet (PPPoE)"
+        dhcpv6-pd {
+            pd 0 {
+                interface switch0 {
+                    host-address ::1
+                    prefix-id :0
+                    service slaac
+                }
+                prefix-length /60
+            }
+            prefix-only
+            rapid-commit enable
+        }
         duplex auto
         pppoe 0 {
             default-route auto
