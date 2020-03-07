@@ -221,6 +221,10 @@ system {
         user hoto {
             authentication {
                 encrypted-password $5$tEX6nG9LuywuNgJp$jTIUnL0NeeTTFPRGbqbQwPzpLwcDAicSmPzUcfZ3/lD
+                public-keys hoto {
+                    key AAAAC3NzaC1lZDI1NTE5AAAAINnVuS7SbDnhncvy6W4U06DeRqYyWWuUtOpSNCSyoSl/
+                    type ssh-ed25519
+                }
             }
             level admin
         }
