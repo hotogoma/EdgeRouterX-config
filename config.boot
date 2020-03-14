@@ -196,6 +196,14 @@ service {
                 start 192.168.1.38 {
                     stop 192.168.1.243
                 }
+                static-mapping GPU {
+                    ip-address 192.168.1.3
+                    mac-address 00:01:2e:71:c4:cf
+                }
+                static-mapping NAS {
+                    ip-address 192.168.1.2
+                    mac-address 00:11:32:71:e5:07
+                }
             }
         }
         static-arp disable
@@ -246,6 +254,14 @@ system {
         server 2.ubnt.pool.ntp.org {
         }
         server 3.ubnt.pool.ntp.org {
+        }
+    }
+    static-host-mapping {
+        host-name gpu.mrkch.jp {
+            inet 192.168.1.3
+        }
+        host-name nas.mrkch.jp {
+            inet 192.168.1.2
         }
     }
     syslog {
