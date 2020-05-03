@@ -58,6 +58,44 @@ firewall {
     ipv6-src-route disable
     ip-src-route disable
     log-martians enable
+    name DSLite_IN {
+        default-action drop
+        description "DSLite to LAN"
+        rule 10 {
+            action accept
+            description "Allow established/related"
+            state {
+                established enable
+                related enable
+            }
+        }
+        rule 20 {
+            action drop
+            description "Drop invalid state"
+            state {
+                invalid enable
+            }
+        }
+    }
+    name DSLite_LOCAL {
+        default-action drop
+        description "DSLite to Router"
+        rule 10 {
+            action accept
+            description "Allow established/related"
+            state {
+                established enable
+                related enable
+            }
+        }
+        rule 40 {
+            action drop
+            description "Drop invalid state"
+            state {
+                invalid enable
+            }
+        }
+    }
     name WAN_IN {
         default-action drop
         description "WAN to internal"
@@ -164,6 +202,22 @@ interfaces {
         }
         speed auto
     }
+    ipv6-tunnel v6tun0 {
+        description DSLite
+        encapsulation ipip6
+        firewall {
+            in {
+                name DSLite_IN
+            }
+            local {
+                name DSLite_LOCAL
+            }
+        }
+        local-ip 2409:252:9440:1410::1
+        multicast disable
+        remote-ip 2404:8e01::feed:100
+        ttl 64
+    }
     loopback lo {
     }
     switch switch0 {
@@ -180,6 +234,17 @@ interfaces {
             interface eth4 {
             }
             vlan-aware disable
+        }
+    }
+}
+protocols {
+    static {
+        interface-route 0.0.0.0/0 {
+            next-hop-interface pppoe0 {
+                distance 100
+            }
+            next-hop-interface v6tun0 {
+            }
         }
     }
 }
