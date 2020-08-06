@@ -205,7 +205,7 @@ service {
     }
 }
 system {
-    host-name ubnt
+    host-name mrkch.jp
     login {
         user hoto {
             authentication {
