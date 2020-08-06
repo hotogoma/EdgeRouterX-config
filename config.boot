@@ -173,8 +173,24 @@ service {
                 default-router 192.168.1.1
                 dns-server 192.168.1.1
                 lease 86400
-                start 192.168.1.38 {
-                    stop 192.168.1.243
+                start 192.168.1.2 {
+                    stop 192.168.1.199
+                }
+                static-mapping GPU {
+                    ip-address 192.168.1.3
+                    mac-address 00:01:2e:71:c4:cf
+                }
+                static-mapping NAS {
+                    ip-address 192.168.1.2
+                    mac-address 00:11:32:71:e5:07
+                }
+                static-mapping PI {
+                    ip-address 192.168.1.4
+                    mac-address b8:27:eb:87:3d:ad
+                }
+                static-mapping PRINTER {
+                    ip-address 192.168.1.5
+                    mac-address 38:9d:92:bc:e0:cf
                 }
             }
         }
@@ -226,6 +242,17 @@ system {
         server 2.ubnt.pool.ntp.org {
         }
         server 3.ubnt.pool.ntp.org {
+        }
+    }
+    static-host-mapping {
+        host-name gpu.mrkch.jp {
+            inet 192.168.1.3
+        }
+        host-name nas.mrkch.jp {
+            inet 192.168.1.2
+        }
+        host-name pi.mrkch.jp {
+            inet 192.168.1.4
         }
     }
     syslog {
