@@ -1,6 +1,62 @@
 firewall {
     all-ping enable
     broadcast-ping disable
+    ipv6-name WANv6_IN {
+        default-action drop
+        description "WAN inbound traffic forwarded to LAN"
+        enable-default-log
+        rule 10 {
+            action accept
+            description "Allow established/related sessions"
+            state {
+                established enable
+                related enable
+            }
+        }
+        rule 20 {
+            action drop
+            description "Drop invalid state"
+            state {
+                invalid enable
+            }
+        }
+    }
+    ipv6-name WANv6_LOCAL {
+        default-action drop
+        description "WAN inbound traffic to the router"
+        enable-default-log
+        rule 10 {
+            action accept
+            description "Allow established/related sessions"
+            state {
+                established enable
+                related enable
+            }
+        }
+        rule 20 {
+            action drop
+            description "Drop invalid state"
+            state {
+                invalid enable
+            }
+        }
+        rule 30 {
+            action accept
+            description "Allow IPv6 icmp"
+            protocol ipv6-icmp
+        }
+        rule 40 {
+            action accept
+            description "allow dhcpv6"
+            destination {
+                port 546
+            }
+            protocol udp
+            source {
+                port 547
+            }
+        }
+    }
     ipv6-receive-redirects disable
     ipv6-src-route disable
     ip-src-route disable
@@ -36,31 +92,11 @@ firewall {
             }
         }
         rule 20 {
-            action accept
-            description "Allow L2TP"
-            destination {
-                port 500,1701,4500
-            }
-            log disable
-            protocol udp
-        }
-        rule 40 {
-            action accept
-            description "Allow ESP"
-            log disable
-            protocol esp
-        }
-        rule 50 {
             action drop
             description "Drop invalid state"
             state {
                 invalid enable
             }
-        }
-    }
-    options {
-        mss-clamp {
-            mss 1412
         }
     }
     receive-redirects disable
@@ -70,14 +106,18 @@ firewall {
 }
 interfaces {
     ethernet eth0 {
-        description "Internet (PPPoE)"
+        address dhcp
+        description Internet
         duplex auto
-        pppoe 0 {
-            default-route auto
-            mtu 1492
-            name-server auto
-            password XXXXXXXX
-            user-id XXXXXXXX
+        firewall {
+            in {
+                ipv6-name WANv6_IN
+                name WAN_IN
+            }
+            local {
+                ipv6-name WANv6_LOCAL
+                name WAN_LOCAL
+            }
         }
         speed auto
     }
@@ -97,7 +137,7 @@ interfaces {
         speed auto
     }
     ethernet eth4 {
-        description "Local (AP)"
+        description Local
         duplex auto
         poe {
             output pthru
@@ -122,12 +162,6 @@ interfaces {
             vlan-aware disable
         }
     }
-}
-port-forward {
-    auto-firewall enable
-    hairpin-nat enable
-    lan-interface switch0
-    wan-interface pppoe0
 }
 service {
     dhcp-server {
@@ -167,8 +201,6 @@ service {
         forwarding {
             cache-size 150
             listen-on switch0
-            listen-on lo
-            options listen-address=192.168.1.1
         }
     }
     gui {
@@ -180,7 +212,7 @@ service {
     nat {
         rule 5010 {
             description "masquerade for WAN"
-            outbound-interface pppoe0
+            outbound-interface eth0
             type masquerade
         }
     }
@@ -191,20 +223,12 @@ service {
 }
 system {
     host-name mrkch.jp
-    ip {
-        override-hostname-ip 192.168.1.1
-    }
     login {
         user hoto {
             authentication {
-                encrypted-password $6$YZIKJ5KEg0rAN$XAzaoR9JH/O1enPUSHG3t6frXHMQctlF3aPGMKTA2AKyrs8dr9uPF9r0nWWAA3NQrPh3PCsZr/OtD.XgixMoY0
-                plaintext-password ""
-                public-keys DM-1702095 {
+                encrypted-password $5$tEX6nG9LuywuNgJp$jTIUnL0NeeTTFPRGbqbQwPzpLwcDAicSmPzUcfZ3/lD
+                public-keys hoto {
                     key AAAAC3NzaC1lZDI1NTE5AAAAINnVuS7SbDnhncvy6W4U06DeRqYyWWuUtOpSNCSyoSl/
-                    type ssh-ed25519
-                }
-                public-keys HotoMac {
-                    key AAAAC3NzaC1lZDI1NTE5AAAAID/cYHQa6M4tOGiMaQ/kQmH0E1vuCnvRg91KjXkYAh2s
                     type ssh-ed25519
                 }
             }
@@ -243,61 +267,6 @@ system {
         }
     }
     time-zone UTC
-    traffic-analysis {
-        dpi disable
-        export disable
-    }
-}
-vpn {
-    ipsec {
-        allow-access-to-local-interface disable
-        auto-firewall-nat-exclude disable
-        ipsec-interfaces {
-            interface pppoe0
-        }
-        nat-networks {
-            allowed-network 0.0.0.0/0 {
-            }
-        }
-        nat-traversal enable
-    }
-    l2tp {
-        remote-access {
-            authentication {
-                local-users {
-                    username goma {
-                        password XXXXXXXX
-                    }
-                    username hoto {
-                        password XXXXXXXX
-                    }
-                    username papix {
-                        password XXXXXXXX
-                    }
-                }
-                mode local
-            }
-            client-ip-pool {
-                start 192.168.1.200
-                stop 192.168.1.254
-            }
-            dns-servers {
-                server-1 192.168.1.1
-                server-2 8.8.8.8
-            }
-            idle 1800
-            ipsec-settings {
-                authentication {
-                    mode pre-shared-secret
-                    pre-shared-secret XXXXXXXX
-                }
-                ike-lifetime 3600
-                lifetime 3600
-            }
-            mtu 1280
-            outside-address 0.0.0.0
-        }
-    }
 }
 
 
