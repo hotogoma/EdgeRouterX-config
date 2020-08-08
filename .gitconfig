@@ -1,3 +1,0 @@
-[filter "mask-password"]
-  smudge = cat
-  clean = perl -pe 's/^(\\s+(password|pre-shared-secret|user-id)) .+$/$1 XXXXXXXX/g'
